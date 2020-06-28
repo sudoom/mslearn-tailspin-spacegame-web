@@ -72,6 +72,6 @@ stages:
                 - task: AzureWebApp@1
                   displayName: 'Azure app service Deeploy: website'
                   inputs:
-                    azureSubscription: '31913d88-00fe-439b-9bab-a0fc309af11f'
+                    azureSubscription: 'mossad-connection'
                     appName: '$(WebAppName)'
                     package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
