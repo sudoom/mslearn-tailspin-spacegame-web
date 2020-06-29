@@ -4,7 +4,7 @@
     "parameters": {
         "webAppName": {
             "type": "string",
-            "defaultValue": "[concat('ASPNET-', uniqueString(resourceGroup().id))]",
+            "defaultValue": "tailspinmossad",
             "metadata":{
                 "description": "That name is the name of our application. It has to be unique. Type a name followed by your resource group name. (<name>-<resourceGroupName>)"
             }
@@ -24,7 +24,7 @@
         "workerSize": "0",
         "workerSizeId": 0,
         "numberOfWorkers": "1",
-        "currentStack": "dotnet",
+        "currentStack": "dotnetcore",
         // "netFrameworkVersion": "v4.0",
         "hostingPlanName": "[concat('hpn-', resourceGroup().name)]",
         "appInsight": "[concat('insights-', parameters('webAppName'))]"
