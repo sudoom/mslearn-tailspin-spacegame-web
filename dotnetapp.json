@@ -32,8 +32,8 @@
             "name": "[parameters('name')]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "microsoft.insights/components/tailspinmossad",
-                "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
+                "[resourceId('microsoft.insights/components', variables('appInsight'))]",
+                "[resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
             ],
             "properties": {
                 "name": "[parameters('name')]",
@@ -41,11 +41,11 @@
                     "appSettings": [
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                            "value": "[reference('microsoft.insights/components/', variables('appInsight'), '2015-05-01').InstrumentationKey]"
+                            "value": "[reference('microsoft.insights/components/', variables('appInsight'), '2018-05-01-preview').InstrumentationKey]"
                         },
                         {
                             "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                            "value": "[reference('microsoft.insights/components/', variables('appInsight'), '2015-05-01').ConnectionString]"
+                            "value": "[reference('microsoft.insights/components/', variables('appInsight'), '2018-05-01-preview').ConnectionString]"
                         },
                         {
                             "name": "ApplicationInsightsAgent_EXTENSION_VERSION",
@@ -86,7 +86,7 @@
         },
         {
             "type": "microsoft.insights/components",
-            "apiVersion": "2015-05-01",
+            "apiVersion": "2018-05-01-preview",
             "name": "[parameters('name')]",
             "location": "[parameters('location')]",
             "properties": {
