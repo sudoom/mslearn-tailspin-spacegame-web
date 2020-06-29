@@ -30,9 +30,8 @@ stages:
             location: 'East US'
             templateLocation: 'Linked artifact'
             csmFile: 'dotnetapp.json'
-            # csmParametersFile: '$(Build.ArtifactStagingDirectory)/anotherapp.parameters.json'
-            # overrideParameters: '-siteName $(siteName) -administratorLogin $(adminUser) -administratorLoginPassword $(ARM_PASS)'
             deploymentMode: 'Incremental'
+
         - task: UseDotNet@2
           displayName: 'Use .Net Core SDK $(dotnetSdkVersion)'
           inputs:
