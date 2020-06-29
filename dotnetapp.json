@@ -87,7 +87,7 @@
         {
             "type": "Microsoft.Insights/components",
             "apiVersion": "2018-05-01-preview",
-            "name": "[parameters('name')]",
+            "name": "[variables('appInsight')]",
             "location": "[parameters('location')]",
             "properties": {
                 "ApplicationId": "[parameters('name')]"    
