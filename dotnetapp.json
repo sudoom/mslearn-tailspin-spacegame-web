@@ -32,7 +32,7 @@
             "name": "[parameters('name')]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', variables('appInsight'))]",
+                "[resourceId('Microsoft.Insights/components/', variables('appInsight'))]",
                 "[resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
             ],
             "properties": {
