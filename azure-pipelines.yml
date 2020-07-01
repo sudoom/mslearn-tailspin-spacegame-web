@@ -1,5 +1,5 @@
 trigger:
-- '*'
+- '*  '
 variables:
   buildConfiguration: 'Release'
 
@@ -9,13 +9,13 @@ stages:
     jobs: 
     - job: 'Build'
       displayName: 'Build job'
-      pool:
-        vmImage: 'ubuntu-18.04'
+      # pool:
+      #   vmImage: 'ubuntu-18.04'
 
 
-      variables:
-        wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-        dotnetSdkVersion: '3.1.300'
+      # variables:
+      #   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+      #   dotnetSdkVersion: '3.1.300'
 
       steps:
         - task: AzureResourceManagerTemplateDeployment@3
