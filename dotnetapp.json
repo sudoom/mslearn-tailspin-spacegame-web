@@ -56,11 +56,11 @@
             "type": "string",
             "defaultValue": "[subscription().tenantId]"
         },
-        "objectId": {
-            "type": "string",
-            // "defaultValue": "ef527b6b-960f-4b9b-8888-30d7b74fd2a0",
-            "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2018-02-01', 'Full').identity.principalId]"
-        },
+        // "objectId": {
+        //     "type": "string",
+        //     // "defaultValue": "ef527b6b-960f-4b9b-8888-30d7b74fd2a0",
+        //     "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2018-02-01', 'Full').identity.principalId]"
+        // },
         "keysPermissions": {
             "type": "array",
             "defaultValue": [
@@ -210,7 +210,7 @@
                 "accessPolicies": [
                     {
                         "tenantId": "[parameters('tenantId')]",
-                        "objectId": "[parameters('objectId')]",
+                        "objectId": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2018-02-01', 'Full').identity.principalId]",
                         "permissions": {
                             "keys": "[parameters('keysPermissions')]",
                             "secrets": "[parameters('secretsPermissions')]"
