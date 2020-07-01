@@ -216,15 +216,15 @@
                             "secrets": "[parameters('secretsPermissions')]"
                         }
                     }
-                    // ,
-                    // {
-                    //     "tenantId": "[parameters('tenantId')]",
-                    //     "objectId": "f873cf76-4906-49cc-95ab-dd61a616bb08",
-                    //     "permissions": {
-                    //         "keys": [ "all" ],
-                    //         "secrets": [ "all" ]
-                    //     }
-                    // }
+                    ,
+                    {
+                        "tenantId": "[parameters('tenantId')]",
+                        "objectId": "f873cf76-4906-49cc-95ab-dd61a616bb08",
+                        "permissions": {
+                            "keys": [ "all" ],
+                            "secrets": [ "all" ]
+                        }
+                    }
                 ],
                 "sku": {
                     "name": "[parameters('skuName')]",
