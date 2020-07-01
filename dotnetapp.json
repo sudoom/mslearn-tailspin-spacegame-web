@@ -67,9 +67,9 @@
         },
         "skuName": {
             "type": "string",
-            "defaultValue": "Standart",
+            "defaultValue": "Standard",
             "allowedValues": [
-                "Standart",
+                "Standard",
                 "Premium"
             ]
         },
