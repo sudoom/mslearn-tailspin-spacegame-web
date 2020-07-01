@@ -57,9 +57,9 @@
             "defaultValue": "[subscription().tenantId]"
         },
         "objectId": {
-            "type": "string"
+            "type": "string",
             // "defaultValue": "ef527b6b-960f-4b9b-8888-30d7b74fd2a0"
-            // "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2019-08-01', 'Full').objectId]"
+            "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')),'2018-02-01', 'Full').identity.principalId]"
         },
         "keysPermissions": {
             "type": "array",
@@ -210,20 +210,21 @@
                 "accessPolicies": [
                     {
                         "tenantId": "[parameters('tenantId')]",
-                        "objectId": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')),'2018-02-01', 'Full').identity.principalId]",
+                        "objectId": "[parameters('objectId')]",
                         "permissions": {
                             "keys": "[parameters('keysPermissions')]",
                             "secrets": "[parameters('secretsPermissions')]"
                         }
-                    },
-                    {
-                        "tenantId": "[parameters('tenantId')]",
-                        "objectId": "f873cf76-4906-49cc-95ab-dd61a616bb08",
-                        "permissions": {
-                            "keys": [ "all" ],
-                            "secrets": [ "all" ]
-                        }
                     }
+                    // ,
+                    // {
+                    //     "tenantId": "[parameters('tenantId')]",
+                    //     "objectId": "f873cf76-4906-49cc-95ab-dd61a616bb08",
+                    //     "permissions": {
+                    //         "keys": [ "all" ],
+                    //         "secrets": [ "all" ]
+                    //     }
+                    // }
                 ],
                 "sku": {
                     "name": "[parameters('skuName')]",
