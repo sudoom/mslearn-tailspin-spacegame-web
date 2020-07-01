@@ -51,7 +51,7 @@
                 false,
                 true
             ]
-        }
+        },
         "tenantId": {
             "type": "string",
             "defaultValue": "[subscription().tenantId]"
