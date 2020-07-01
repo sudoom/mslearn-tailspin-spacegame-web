@@ -50,7 +50,7 @@
         },
         "objectId": {
             "type": "string",
-            "defaultValue": "1771f9ec-e3dd-4799-8982-5475281ac6d2"
+            "defaultValue": "ef527b6b-960f-4b9b-8888-30d7b74fd2a0"
             // "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2019-08-01', 'Full').objectId]"
         },
         "keysPermissions": {
