@@ -5,17 +5,80 @@
         "webAppName": {
             "type": "string",
             "defaultValue": "tailspinmossad",
-            "metadata":{
+            "metadata": {
                 "description": "That name is the name of our application. It has to be unique. Type a name followed by your resource group name. (<name>-<resourceGroupName>)"
             }
         },
         "location": {
             "type": "string",
             "defaultValue": "[resourceGroup().location]",
-            "metadata":{
+            "metadata": {
                 "description": "Location for all resources."
             }
+        },
+        "KeyVaultName": {
+            "type": "string",
+            "defaultValue": "tailspinkeyvault"
+        },
+        "enabledForDeployment": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                false,
+                true
+            ]
+        },
+        "enabledForTemplateDeployment": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                false,
+                true
+            ]
+        },
+        "enabledForDiskEncryption": {
+            "type": "bool",
+            "defaultValue": false,
+            "allowedValues": [
+                false,
+                true
+            ]
+        },
+        "tenantId": {
+            "type": "string",
+            "defaultValue": "[subscription().tenantId]"
+        },
+        "objectId": {
+            "type": "string",
+            "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2019-08-01', 'Full').objectId]"
+        },
+        "keysPermissions": {
+            "type": "array",
+            "defaultValue": [
+                "list"
+            ]
+        },
+        "secretsPermissions": {
+            "type": "array",
+            "defaultValue": [
+                "list"
+            ]
+        },
+        "skuName": {
+            "type": "string",
+            "defaultValue": "Standart",
+            "allowedValues": [
+                "Standart, Premium"
+            ]
+        },
+        "secretName": {
+            "type": "string"
+        },
+        "secretValue": {
+            "type": "securestring"
         }
+
+
     },
     "variables": {
         "alwaysOn": false,
@@ -25,7 +88,6 @@
         "workerSizeId": 0,
         "numberOfWorkers": "1",
         "currentStack": "dotnetcore",
-        // "netFrameworkVersion": "v4.0",
         "hostingPlanName": "[concat('hpn-', resourceGroup().name)]",
         "appInsight": "[concat('insights-', parameters('webAppName'))]"
     },
@@ -35,6 +97,9 @@
             "name": "[parameters('webAppName')]",
             "type": "Microsoft.Web/sites",
             "location": "[parameters('location')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
             "dependsOn": [
                 "[resourceId('Microsoft.Insights/components/', variables('appInsight'))]",
                 "[resourceId('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
@@ -86,7 +151,6 @@
                             "value": "[variables('currentStack')]"
                         }
                     ],
-                    // "netFrameworkVersion": "[variables('netFrameworkVersion')]",
                     "alwaysOn": "[variables('alwaysOn')]"
                 },
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
@@ -117,6 +181,50 @@
             "properties": {
                 "ApplicationId": "[parameters('webAppName')]"
             }
+        },
+
+        {
+            "name": "[parameters('KeyVaultName')]",
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2016-10-01",
+            "location": "[parameters('location')]",
+            "tags": {
+                "displayName": "[parameters('KeyVaultName')]"
+            },
+            "properties": {
+                "enabledForDeployment": "[parameters('enabledForDeployment')]",
+                "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+                "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+                "tenantId": "[parameters('tenantId')]",
+                "accessPolicies": [
+                    {
+                        "tenantId": "[parameters('tenantId')]",
+                        "objectId": "[parameters('objectId')]",
+                        "permissions": {
+                            "keys": "[parameters('keysPermissions')]",
+                            "secrets": "[parameters('secretsPermissions')]"
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "[parameters('skuName')]",
+                    "family": "A"
+                }
+            },
+            "resources": [
+                {
+                    "type": "secrets",
+                    "name": "[concat(parameters('KeyVaultName'), '/', parameters('secretName'))]",
+                    "apiVersion": "2016-10-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.KeyVault/vaults', parameters('KeyVaultName'))]"
+                    ],
+                    "properties": {
+                        "value": "[parameters('secretValue')]"
+                    }
+                }
+            ]
         }
+
     ]
 }

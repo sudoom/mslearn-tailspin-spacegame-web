@@ -30,6 +30,7 @@ stages:
             location: 'East US'
             templateLocation: 'Linked artifact'
             csmFile: 'dotnetapp.json'
+            overrideParameters: '-secretName $(secretName) -secretValue $(secretValue)'
             deploymentMode: 'Incremental'
 
         - task: UseDotNet@2
