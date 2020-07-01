@@ -58,8 +58,8 @@
         },
         "objectId": {
             "type": "string",
-            // "defaultValue": "ef527b6b-960f-4b9b-8888-30d7b74fd2a0"
-            "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')),'2018-02-01', 'Full').identity.principalId]"
+            "defaultValue": "ef527b6b-960f-4b9b-8888-30d7b74fd2a0"
+            // "defaultValue": "[reference(resourceId('Microsoft.Web/sites/', parameters('webAppName')), '2018-02-01').identity.principalId]"
         },
         "keysPermissions": {
             "type": "array",
@@ -246,5 +246,11 @@
             ]
         }
 
-    ]
+    ],
+    "outputs": {
+        "principalid": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Web/sites/', parameters('webAppName')), '2018-02-01').identity.principalId]"
+        }
+    }
 }
