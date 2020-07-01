@@ -250,7 +250,7 @@
     "outputs": {
         "principalid": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.Web/sites/', parameters('webAppName')), '2018-02-01').identity.principalId]"
+            "value": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2018-02-01', 'Full').identity.principalId]"
         }
     }
 }
