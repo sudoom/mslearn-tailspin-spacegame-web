@@ -11,8 +11,7 @@ stages:
       displayName: 'Build job'
       pool:
         vmImage: 'ubuntu-18.04'
-        demands:
-        - npm
+
 
       variables:
         wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
@@ -20,72 +19,57 @@ stages:
 
       steps:
         - task: AzureResourceManagerTemplateDeployment@3
-          displayName: 'Create .Net Core App'
+          displayName: 'Create container registry'
           inputs:
             deploymentScope: 'Resource Group'
             azureResourceManagerConnection: 'mossad-connection'
             subscriptionId: '31913d88-00fe-439b-9bab-a0fc309af11f'
             action: 'Create Or Update Resource Group'
-            resourceGroupName: 'testpipe'
+            resourceGroupName: 'testkubepipe'
             location: 'East US'
             templateLocation: 'Linked artifact'
-            csmFile: 'dotnetapp.json'
+            csmFile: 'kube.json'
             deploymentMode: 'Incremental'
 
-        - task: UseDotNet@2
-          displayName: 'Use .Net Core SDK $(dotnetSdkVersion)'
-          inputs:
-            packageType: sdk
-            version: '$(dotnetSdkVersion)'
-        
-        - task: Npm@1
-          displayName: 'Run npm install'
-          inputs:
-            verbose: false
-        
-        - script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
-          displayName: 'Compile Sass assets'
+  #       - task: UseDotNet@2
+  #         displayName: 'Use .Net Core SDK $(dotnetSdkVersion)'
+  #         inputs:
+  #           packageType: sdk
+  #           version: '$(dotnetSdkVersion)'
 
-        - task: gulp@1
-          displayName: 'Run gulp tasks'
-        
-        - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
-          displayName: 'Write build info'
-          workingDirectory: $(wwwrootDir)
+  #       - task: DotNetCoreCLI@2
+  #         displayName: 'Restore project dependencies'
+  #         inputs:
+  #           command: 'restore'
+  #           projects: '**/*.csproj'
 
-        - task: DotNetCoreCLI@2
-          displayName: 'Restore project dependencies'
-          inputs:
-            command: 'restore'
-            projects: '**/*.csproj'
+  #       - template: templates/build.yml
+  #         parameters:
+  #           buildConfiguration: 'Release'    
 
-        - template: templates/build.yml
-          parameters:
-            buildConfiguration: 'Release'    
+  #       - task: PublishBuildArtifacts@1
+  #         displayName: 'Publish Artifact: drop'
+  #         condition: succeeded()
 
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Artifact: drop'
-          condition: succeeded()
-
-  - stage: 'Deploy'
-    displayName: 'Deploy the web application'
-    dependsOn: Build
-    jobs:
-      - deployment: Deploy
-        pool:
-          vmImage: 'ubuntu-18.04'
-        environment: dev
-        variables:
-          - group: Release
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - download: current
-                  artifact: drop
-                - task: AzureWebApp@1
-                  displayName: 'Azure app service Deeploy: website'
-                  inputs:
-                    azureSubscription: 'mossad-connection'
-                    appName: '$(WebAppName)'
-                    package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+  # - stage: 'Deploy'
+  #   displayName: 'Deploy the web application'
+  #   dependsOn: Build
+  #   jobs:
+  #     - deployment: Deploy
+  #       pool:
+  #         vmImage: 'ubuntu-18.04'
+  #       environment: dev
+  #       variables:
+  #         - group: Release
+  #       strategy:
+  #         runOnce:
+  #           deploy:
+  #             steps:
+  #               - download: current
+  #                 artifact: drop
+  #               - task: AzureWebApp@1
+  #                 displayName: 'Azure app service Deeploy: website'
+  #                 inputs:
+  #                   azureSubscription: 'mossad-connection'
+  #                   appName: '$(WebAppName)'
+  #                   package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
