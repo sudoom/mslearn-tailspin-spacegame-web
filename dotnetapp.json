@@ -69,7 +69,8 @@
             "type": "string",
             "defaultValue": "Standart",
             "allowedValues": [
-                "Standart, Premium"
+                "Standart",
+                "Premium"
             ]
         },
         "secretName": {
