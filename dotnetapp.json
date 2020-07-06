@@ -56,11 +56,6 @@
             "type": "string",
             "defaultValue": "[subscription().tenantId]"
         },
-        // "objectId": {
-        //     "type": "string",
-        //     // "defaultValue": "ef527b6b-960f-4b9b-8888-30d7b74fd2a0",
-        //     "defaultValue": "[reference(resourceId('Microsoft.Web/sites', parameters('webAppName')), '2018-02-01', 'Full').identity.principalId]"
-        // },
         "keysPermissions": {
             "type": "array",
             "defaultValue": [
@@ -205,7 +200,7 @@
                 "enabledForDeployment": "[parameters('enabledForDeployment')]",
                 "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
                 "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
-                "enableSoftDelete":"[parameters('enableSoftDelete')]",
+                "enableSoftDelete": "[parameters('enableSoftDelete')]",
                 "tenantId": "[parameters('tenantId')]",
                 "accessPolicies": [
                     {
@@ -215,8 +210,7 @@
                             "keys": "[parameters('keysPermissions')]",
                             "secrets": "[parameters('secretsPermissions')]"
                         }
-                    }
-                    ,
+                    },
                     {
                         "tenantId": "[parameters('tenantId')]",
                         "objectId": "f873cf76-4906-49cc-95ab-dd61a616bb08",
